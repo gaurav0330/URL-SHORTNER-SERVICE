@@ -7,7 +7,7 @@ services:
     image: mysql:8.0
     container_name: urlshortener-mysql
     environment:
-      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
       MYSQL_DATABASE: urlshortener
     ports:
       - "3307:3306"      # 3307 on host → 3306 in container
@@ -34,14 +34,16 @@ services:
     container_name: urlshortener-app
     ports:
       - "8080:8080"
+    env_file:
+      - .env
     environment:
       SPRING_PROFILES_ACTIVE: docker
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/urlshortener
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: root
+      SPRING_DATASOURCE_USERNAME:  ${DB_USERNAME}
+      SPRING_DATASOURCE_PASSWORD:  ${DB_PASSWORD}
       SPRING_DATA_REDIS_HOST: redis
       SPRING_DATA_REDIS_PORT: 6379
-      APP_BASE_URL: http://localhost:8080
+      APP_BASE_URL: ${APP_BASE_URL}
     depends_on:
       mysql:
         condition: service_healthy    # wait for MySQL to be ready
