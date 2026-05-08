@@ -42,7 +42,7 @@ public class UrlMapping {
     @Column(nullable = false)
     @Builder.Default
     private Boolean isActive = true;
-//
+
 //    @Future(message = "Expiry date must be in the future")
     private LocalDateTime expiresAt;
 

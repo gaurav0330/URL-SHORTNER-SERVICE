@@ -30,9 +30,10 @@ public class UrlRequestDto {
     )
     private String customAlias;   // optional — user may or may not send this
 
+
     @Schema(description = "Optional expiry date for the short URL",
             example = "2027-01-01T00:00:00")
-    @Future(message = "Expiry date must be in the future")
+//    @Future(message = "Expiry date must be in the future")
     private LocalDateTime expiresAt;
 
 }

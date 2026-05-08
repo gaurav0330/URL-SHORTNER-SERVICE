@@ -97,7 +97,7 @@ public class UrlService {
 
 //    ALL ARE PRIVATE AND HELPER METHOD
 
-    // if customALias then generate unquie code for it
+    // if customALias then generate unique code for it
     private String resolveShortCode(UrlRequestDto request) {
         if (request.getCustomAlias() != null && !request.getCustomAlias().isBlank()) {
             if (urlRepository.existsByCustomAlias(request.getCustomAlias())) {
@@ -128,7 +128,6 @@ public class UrlService {
         return sb.toString();
     }
 
-
     private UrlResponeDto toResponseDto(UrlMapping mapping) {
         return UrlResponeDto.builder()
                 .shortCode(mapping.getShortCode())
@@ -143,7 +142,6 @@ public class UrlService {
 
     public void checkExpiry(UrlMapping mapping){
         if(mapping.getExpiresAt() != null && mapping.getExpiresAt().isBefore(LocalDateTime.now())) {
-
             mapping.setIsActive(false);
         urlRepository.save(mapping);
         evictCache(mapping.getShortCode());
