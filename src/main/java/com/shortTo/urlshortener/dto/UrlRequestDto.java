@@ -36,4 +36,12 @@ public class UrlRequestDto {
 //    @Future(message = "Expiry date must be in the future")
     private LocalDateTime expiresAt;
 
+    @Schema(description = "Optional category for the URL",
+            example = "Marketing")
+    private String category;
+
+    @Schema(description = "Optional password for the URL",
+            example = "secret123")
+    private String password;
+
 }

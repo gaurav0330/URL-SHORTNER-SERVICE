@@ -2,6 +2,7 @@ package com.shortTo.urlshortener.controller;
 
 import com.shortTo.urlshortener.dto.UrlRequestDto;
 import com.shortTo.urlshortener.dto.UrlResponeDto;
+import com.shortTo.urlshortener.dto.UrlUpdateRequestDto;
 import com.shortTo.urlshortener.exception.RateLimitException;
 import com.shortTo.urlshortener.service.RateLimiterService;
 import com.shortTo.urlshortener.service.UrlService;
@@ -14,7 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URI;
+
 
 
 @Tag(name = "URL Shortener", description = "Endpoints for shortening and managing URLs")
@@ -45,16 +46,6 @@ public class UrlController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @GetMapping("/{shortCode}")
-    public ResponseEntity<Void> redirect(
-            @PathVariable String shortCode) {
-        String originalUrl = urlService.getOriginalUrl(shortCode);
-        return ResponseEntity.status(HttpStatus.FOUND)
-                .location(URI.create(originalUrl))
-                .build();
-
-    }
-
     @Operation(
             summary = "Get URL stats",
             description = "Returns click count and metadata for a short URL"
@@ -63,5 +54,33 @@ public class UrlController {
     public  ResponseEntity<UrlResponeDto> getStats(@PathVariable String shortCode){
         UrlResponeDto stats = urlService.getStats(shortCode);
         return ResponseEntity.ok(stats);
+    }
+
+    @GetMapping
+    public ResponseEntity<?> getAllUrls() {
+
+        return ResponseEntity.ok(
+                urlService.getAllUrls()
+        );
+    }
+
+    @Operation(
+            summary = "Update a URL",
+            description = "Updates the original destination URL of an existing short URL"
+    )
+    @PutMapping("/{id}")
+    public ResponseEntity<UrlResponeDto> updateUrl(@PathVariable Long id, @RequestBody @Valid UrlUpdateRequestDto request) {
+        UrlResponeDto response = urlService.updateUrl(id, request.getOriginalUrl());
+        return ResponseEntity.ok(response);
+    }
+
+    @Operation(
+            summary = "Delete a URL",
+            description = "Soft-deletes a URL by setting it as inactive"
+    )
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteUrl(@PathVariable Long id) {
+        urlService.deleteUrl(id);
+        return ResponseEntity.noContent().build();
     }
 }

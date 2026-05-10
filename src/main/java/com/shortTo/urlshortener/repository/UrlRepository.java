@@ -6,11 +6,18 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface UrlRepository extends JpaRepository<UrlMapping,Long> {
 
+    Optional<UrlMapping> findByShortCode(String shortCode);
+
     Optional<UrlMapping> findByShortCodeAndIsActive(String hashCode, boolean isActive);
+
+    List<UrlMapping> findByUser(com.shortTo.urlshortener.model.User user);
+
+    Optional<UrlMapping> findByIdAndUser(Long id, com.shortTo.urlshortener.model.User user);
 
     boolean existsByShortCode(String shortCode);
 

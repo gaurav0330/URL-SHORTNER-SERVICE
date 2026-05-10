@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UrlResponeDto {
+    private Long id;
     private String shortCode;
     private String shortUrl;         // full URL e.g. http://localhost:8080/aB3xYz
     private String originalUrl;
@@ -19,5 +20,8 @@ public class UrlResponeDto {
     private Long clickCount;
     private LocalDateTime createdAt;
     private LocalDateTime expiresAt;
+    private Boolean isActive;
+    private String category;
+    private Boolean hasPassword;
 
 }

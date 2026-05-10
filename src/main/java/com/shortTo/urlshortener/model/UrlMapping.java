@@ -46,4 +46,13 @@ public class UrlMapping {
 //    @Future(message = "Expiry date must be in the future")
     private LocalDateTime expiresAt;
 
+    @Column(length = 50)
+    private String category;
+
+    private String password;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
 }
